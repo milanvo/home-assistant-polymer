@@ -77,6 +77,13 @@ class HaClimateControl extends EventsMixin(PolymerElement) {
     this.$.target_temperature.classList.toggle("in-flux", inFlux);
   }
 
+  roundValue(value) {
+    if (this.step >= 1) {
+      return value;
+    }
+    return parseFloat(value.toFixed(1));
+  }
+
   incrementValue() {
     const newval = this.value + this.step;
     if (this.value < this.max) {
@@ -90,7 +97,7 @@ class HaClimateControl extends EventsMixin(PolymerElement) {
       if (newval <= this.min) {
         this.value = this.min;
       } else {
-        this.value = newval;
+        this.value = this.roundValue(newval);
       }
     } else {
       this.value = this.max;
@@ -104,7 +111,7 @@ class HaClimateControl extends EventsMixin(PolymerElement) {
       this.temperatureStateInFlux(true);
     }
     if (newval >= this.min) {
-      this.value = newval;
+      this.value = this.roundValue(newval);
     } else {
       this.value = this.min;
     }
